@@ -5,6 +5,7 @@ bin/
 .settings/
 .project
 *.iml
+.DS_Store
 
 # Maven Build
 target/
