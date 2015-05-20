@@ -1,0 +1,1 @@
+gcc listen.c -lsndfile -lfftw3 -lm -std=c99

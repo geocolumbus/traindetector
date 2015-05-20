@@ -1,0 +1,16 @@
+# IDE
+bin/
+.idea/
+.classpath/
+.settings/
+.project
+*.iml
+
+# Maven Build
+target/
+
+# C binaries are specific to the processor they are compile for
+*.out
+
+# Files not wanted in the archive
+application.properties.backup

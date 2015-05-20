@@ -1,0 +1,2 @@
+GIT_WORK_TREE=/var/java/project1 git checkout -f
+/var/java/project1/scripts-bash/stop.sh

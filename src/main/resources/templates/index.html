@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+    <title>Lincoln Ave. Train Counter</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- amCharts javascript sources -->
+    <script type="text/javascript" src="http://cdn.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+    <script type="text/javascript" src="http://cdn.amcharts.com/lib/3/themes/light.js"></script>
+
+</head>
+<body>
+<h1 class="banner">Lincoln Avenue<br/>Train Counter</h1>
+
+<div id="about-accordian">
+    <p>
+        <a data-toggle="collapse" data-parent="#about-accordian" class="top-link" href="#collapse-where">Where?</a>
+        <a data-toggle="collapse" data-parent="#about-accordian" class="top-link" id="question-why"
+           href="#collapse-why">Why?</a>
+        <a data-toggle="collapse" data-parent="#about-accordian" class="top-link" id="question-how"
+           href="#collapse-how">How?</a>
+    </p>
+
+    <div id="collapse-where" class="panel-collapse collapse">
+        <div class="panel-body">
+            <p>This Web App counts trains crossing <a href="https://www.google.com/maps/@40.0748283,-83.0007502,18z">Lincoln
+                Avenue in Columbus, Ohio</a>.</p>
+        </div>
+    </div>
+    <div id="collapse-why" class="panel-collapse collapse">
+        <div class="panel-body"><p id="answer-why" class="answer">I wondered how many trains travelled the tracks near
+            my house each day. Is there a pattern to it? I also liked the technical challenge of building a reliable
+            train detector.</p>
+        </div>
+    </div>
+    <div id="collapse-how" class="panel-collapse collapse">
+        <div class="panel-body">
+            <p id="answer-how" class="answer">Trains are detected by a microphone connected to a Raspberry PI 2.
+                <a href="http://www.noisefree.org/newsroom/nfa-display.php?id=224">Train horns are so loud</a> they
+                are easy to detect even from inside a house located 400 meters from the crossing. The interesting part
+                of the project is <a href="https://github.com/geocolumbus/train-counter/blob/master/listen.c">
+                    a program written in C</a>
+                that uses a Fourier Transform to detect the rather distinctive frequency signature of a train horn.</p>
+        </div>
+    </div>
+</div>
+<div id="trains">
+    <h2>Today (<span id="trains-today-total"></span>)</h2>
+
+    <div id="trains-today" class="trains-times"></div>
+
+    <div class="clear"></div>
+
+    <h2>Yesterday (<span id="trains-yesterday-total"></span>)</h2>
+
+    <div id="trains-yesterday" class="trains-times"></div>
+
+    <div class="clear"></div>
+
+    <div id="this-month" class="this-month-chart"></div>
+
+    <div id="this-year" class="this-year-chart"></div>
+</div>
+
+<footer></footer>
+<script src="js/script.js"></script>
+</body>
+</html>

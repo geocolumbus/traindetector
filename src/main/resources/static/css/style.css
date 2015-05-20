@@ -1,0 +1,68 @@
+body {
+    padding: 12px;
+    width: 90%;
+    margin: auto;
+    max-width: 1000px;
+}
+
+p {
+    font-size: 1.2em;
+}
+
+.trains-time {
+    display: block;
+    float: left;
+    width: 74px;
+}
+
+.trains-times {
+    font-family: monospace;
+}
+
+.clear {
+    clear: both;
+    width:12px;
+    height: 12px;
+}
+
+h2 {
+    font-size: 1.7em;
+}
+
+.top-link {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+.monthly-table td {
+    padding-right: 1em;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.banner {
+    background-image: url(../img/2014-08-lincoln-ave.jpg);
+    width: 1000px;
+    height: 293px;
+    margin: auto;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    padding-top: 4px;
+    font-size: 2.4em;
+}
+
+
+.this-month-chart, .this-year-chart {
+    width: 90%;
+    height: 400px;
+    margin: auto;
+    max-width: 1000px;
+}
+
+
+footer {
+    width: 90%;
+    margin: auto;
+    height: 60px;
+    overflow: hidden;
+}
