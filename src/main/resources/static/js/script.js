@@ -66,7 +66,7 @@ $(document).ready(function () {
             "trendLines": [],
             "graphs": [
                 {
-                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "balloonText": "[[value]]",
                     "fillAlphas": 1,
                     "id": "AmGraph-1",
                     "title": "Trains",
@@ -98,7 +98,7 @@ $(document).ready(function () {
         };
 
         $.each(rawData, function (key) {
-            var date = new Date(rawData[key][0] + ' 00:00:00');
+            var date = new Date(rawData[key][0] + 'T00:00:00');
             var dayName = dayNames[date.getDay()];
 
             chart['dataProvider'].push({
@@ -128,7 +128,7 @@ $(document).ready(function () {
             "trendLines": [],
             "graphs": [
                 {
-                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "balloonText": "[[value]]",
                     "fillAlphas": 1,
                     "id": "AmGraph-1",
                     "title": "Trains",
