@@ -1,4 +1,4 @@
-# www.traindetector.com
+# www.traincounter.com
 
 This project listens for train whistles near my home and logs them in a MySQL database. A UI presents the data in a useful format.
 
