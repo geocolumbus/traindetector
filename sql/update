@@ -1,1 +1,0 @@
-/usr/bin/sftp pi@99.17.244.54 <<< "get project1.sql /Users/georgecampbell/intellij_workspace/project1/sql/project1.sql" && /usr/local/mysql/bin/mysql -u root -p project1 < /Users/georgecampbell/intellij_workspace/project1/sql/project1.sql

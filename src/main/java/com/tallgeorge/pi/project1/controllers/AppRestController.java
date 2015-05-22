@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -29,6 +30,30 @@ public class AppRestController {
     @RequestMapping(value = "/sound/trains", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Train> getTrains(@RequestParam(value = "date") String date) {
         return jpaTrainRepository.findAllByDate(date);
+    }
+
+    @RequestMapping(value = "/sound/trains/days", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Object> getLastNDays(@RequestParam(value = "days") Long days) {
+        List<Object> list = jpaTrainRepository.findLastDays(days);
+        Collections.reverse(list);
+        return list;
+    }
+
+    @RequestMapping(value = "sound/trains/daydist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Object> getDayOfWeekDistribution() {
+        return jpaTrainRepository.findDayOfWeekDistribution();
+    }
+
+    @RequestMapping(value = "sound/trains/hourdist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Object> getHourOfDayDistribution() {
+        return jpaTrainRepository.findHourOfDayDistribution();
+    }
+
+    @RequestMapping(value = "/sound/trains/months", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Object> getLastNMonths(@RequestParam(value = "months") Long months) {
+        List<Object> list = jpaTrainRepository.findLastMonths(months);
+        Collections.reverse(list);
+        return list;
     }
 
     @RequestMapping(value = "/sound/trains/bymonth", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
