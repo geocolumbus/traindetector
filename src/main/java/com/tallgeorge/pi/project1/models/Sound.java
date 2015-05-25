@@ -3,6 +3,7 @@ package com.tallgeorge.pi.project1.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -12,7 +13,7 @@ import java.util.Date;
 public class Sound {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
     @Column
@@ -247,5 +248,32 @@ public class Sound {
 
     public void setProcessed(Boolean processed) {
         this.processed = processed;
+    }
+
+    @Override
+    public String toString() {
+        return "Sound{" +
+                "Id=" + Id +
+                ", posixTimeSec=" + posixTimeSec +
+                ", posixTimeMin=" + posixTimeMin +
+                ", date=" + date +
+                ", time=" + time +
+                ", timeMin=" + timeMin +
+                ", description='" + description + '\'' +
+                ", magnitude=" + magnitude +
+                ", bin0100=" + bin0100 +
+                ", bin0200=" + bin0200 +
+                ", bin0300=" + bin0300 +
+                ", bin0400=" + bin0400 +
+                ", bin0500=" + bin0500 +
+                ", bin0600=" + bin0600 +
+                ", bin0700=" + bin0700 +
+                ", bin0800=" + bin0800 +
+                ", bin0900=" + bin0900 +
+                ", bin1000=" + bin1000 +
+                ", bin1100=" + bin1100 +
+                ", bin1200=" + bin1200 +
+                ", processed=" + processed +
+                '}';
     }
 }

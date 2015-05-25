@@ -2,7 +2,7 @@ package com.tallgeorge.pi.project1.controllers;
 
 import com.tallgeorge.pi.project1.domains.JpaSoundRepository;
 import com.tallgeorge.pi.project1.domains.JpaTrainRepository;
-import com.tallgeorge.pi.project1.models.Sound;
+import com.tallgeorge.pi.project1.models.Poisson;
 import com.tallgeorge.pi.project1.models.Train;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+
+import static java.lang.Math.*;
+import static org.apache.commons.math3.util.CombinatoricsUtils.factorial;
 
 @RestController
 public class AppRestController {
@@ -49,6 +54,46 @@ public class AppRestController {
         return jpaTrainRepository.findHourOfDayDistribution();
     }
 
+    @RequestMapping(value = "sound/trains/minutesbetweentrains", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Poisson> getTimeBetweenTrains() {
+        List<Poisson> poissons = new ArrayList<>();
+        Iterable<Train> trains = jpaTrainRepository.findAll();
+
+        // Calculate all the minutes between trains and put them in a hash map
+        HashMap<Long, Long> minutesBetweenTrains = new HashMap<>();
+        for (Long i = 0L; i < 180L; i++) {
+            minutesBetweenTrains.put(i, 0L);
+        }
+
+        Train last = null;
+
+        for (Train train : trains) {
+            if (last != null) {
+                Long diff = (train.getPosixTimeMin() - last.getPosixTimeMin()) / 60L;
+                if (minutesBetweenTrains.containsKey(diff)) {
+                    minutesBetweenTrains.put(diff, minutesBetweenTrains.get(diff) + 1L);
+                } else {
+                    minutesBetweenTrains.put(diff, 1L);
+                }
+            }
+            last = train;
+        }
+
+        // Calculate the poisson curve
+        //double lambda = 12;
+        //double scale = 1;
+        for (int k = 0; k < 180; k++) {
+            Double poissonCalculation = 0.0;
+            /*
+            if (k < 21) {
+                poissonCalculation = scale * exp(-lambda) * pow(k, lambda) / factorial(k);
+            }
+            */
+            poissons.add(new Poisson(minutesBetweenTrains.get((long) k), poissonCalculation));
+        }
+        return poissons;
+    }
+
     @RequestMapping(value = "/sound/trains/months", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Object> getLastNMonths(@RequestParam(value = "months") Long months) {
         List<Object> list = jpaTrainRepository.findLastMonths(months);
@@ -66,13 +111,4 @@ public class AppRestController {
         return jpaTrainRepository.findMonthlyTotals(year);
     }
 
-    @RequestMapping(value = "/sounds", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Sound> getSounds() {
-        return jpaSoundRepository.findAll();
-    }
-
-    @RequestMapping(value = "/sound/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Sound getSound(@RequestParam(value = "id") Long id) {
-        return jpaSoundRepository.findOne(id);
-    }
 }

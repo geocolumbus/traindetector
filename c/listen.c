@@ -67,7 +67,7 @@
 #define     BUFFER_LEN      SAMPLES_PER_SEC * 2
 #define     BIN_SIZE        100
 #define     BIN_MAX         1200
-#define     THRESHOLD       0.020
+#define     THRESHOLD       0.018
 
 /*
 ** Look for patterns in the frequency spectrum of the sound

@@ -81,7 +81,7 @@ $(document).ready(function () {
                 {
                     "id": "ValueAxis-1",
                     "stackType": "regular",
-                    "title": ""
+                    "title": "Number of Trains"
                 }
             ],
             "allLabels": [],
@@ -134,7 +134,9 @@ $(document).ready(function () {
                     "id": "AmGraph-1",
                     "title": "Trains",
                     "type": "column",
-                    "valueField": "column-1"
+                    "valueField": "column-1",
+                    "colorField": "columnColor",
+                    "lineColorField": "lineColor"
                 }
             ],
             "guides": [],
@@ -142,7 +144,7 @@ $(document).ready(function () {
                 {
                     "id": "ValueAxis-1",
                     "stackType": "regular",
-                    "title": ""
+                    "title": "Number of Trains"
                 }
             ],
             "allLabels": [],
@@ -159,7 +161,9 @@ $(document).ready(function () {
         $.each(data, function (key) {
             yearlyChart.dataProvider.push({
                 'category': monthNames[data[key][0].substr(5, 2) - 1],
-                'column-1': data[key][1]
+                'column-1': data[key][1],
+                'columnColor':'tan',
+                'lineColor':'tan'
             });
         });
 
@@ -198,7 +202,7 @@ $(document).ready(function () {
                 {
                     "id": "ValueAxis-1",
                     "stackType": "regular",
-                    "title": ""
+                    "title": "Number of Trains"
                 }
             ],
             "allLabels": [],
@@ -207,7 +211,7 @@ $(document).ready(function () {
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": "Day of Week Distribution"
+                    "text": "By Day of Week"
                 }
             ], "dataProvider": []
         };
@@ -256,7 +260,8 @@ $(document).ready(function () {
             "startDuration": 1,
             "theme": "light",
             "categoryAxis": {
-                "gridPosition": "start"
+                "gridPosition": "start",
+                "title": "Hour"
             },
             "trendLines": [],
             "graphs": [
@@ -276,7 +281,7 @@ $(document).ready(function () {
                 {
                     "id": "ValueAxis-1",
                     "stackType": "regular",
-                    "title": ""
+                    "title": "Number of Trains"
                 }
             ],
             "allLabels": [],
@@ -285,13 +290,13 @@ $(document).ready(function () {
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": "Hour of Day Distribution"
+                    "text": "By Hour of Day"
                 }
             ], "dataProvider": []
         };
 
         $.each(data, function (key) {
-            var dayColor = key<7 || key>18 ? 'black':null;
+            var dayColor = key < 7 || key > 18 ? 'black' : null;
 
             distributionDayChart.dataProvider.push({
                 'category': data[key][0],
@@ -304,6 +309,70 @@ $(document).ready(function () {
         AmCharts.makeChart("distribution-hour", distributionDayChart);
     });
 
+    /**
+     * Display minutes between trains
+     */
+    $.get("sound/trains/minutesbetweentrains", function (data) {
+        var minutesChart = {
+            "type": "serial",
+            "path": "http://www.amcharts.com/lib/3/",
+            "categoryField": "category",
+            "startDuration": 1,
+            "theme": "light",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "title": "Minutes"
+            },
+            "trendLines": [],
+            "graphs": [
+                {
+                    "balloonText": "[[value]]",
+                    "fillAlphas": 1,
+                    "id": "AmGraph-1",
+                    "title": "Trains",
+                    "type": "column",
+                    "valueField": "column-1"
+                }
+                /*
+                {
+                    "balloonText": "[[value]]",
+                    "fillAlphas": 0,
+                    "id": "AmGraph-2",
+                    "title": "Poisson",
+                    "valueField": "column-2",
+                    "lineColor":"red"
+                }
+                */
+            ],
+            "guides": [],
+            "valueAxes": [
+                {
+                    "id": "ValueAxis-1",
+                    "stackType": "regular",
+                    "title": "Number of Trains"
+                }
+            ],
+            "allLabels": [],
+            "balloon": {},
+            "titles": [
+                {
+                    "id": "Title-1",
+                    "size": 15,
+                    "text": "Minutes Between Trains"
+                }
+            ], "dataProvider": []
+        };
+
+        $.each(data, function (key) {
+            minutesChart.dataProvider.push({
+                'category': key,
+                'column-1': data[key].minutes
+                //'column-2': data[key].poisson
+            });
+        });
+
+        AmCharts.makeChart("minutes-between-trains", minutesChart);
+    });
     /**
      * Format a time like 16:14 to 4:14pm or 9:33 to 9:33am
      * @param time

@@ -28,5 +28,4 @@ public interface JpaTrainRepository extends CrudRepository<Train, String> {
 
     @Query(value = "select hour(time_min),count(*) from train group by hour(time_min) order by hour(time_min)", nativeQuery = true)
     List<Object> findHourOfDayDistribution();
-
 }

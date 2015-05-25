@@ -19,14 +19,18 @@ public class Train {
     @Column(nullable = false)
     private Double magnitude;
 
+    @Column(nullable = false)
+    private Long posixTimeMin;
+
     public Train() {
     }
 
-    public Train(String id, Date date, Date timeMin, Double magnitude) {
+    public Train(String id, Date date, Date timeMin, Double magnitude, Long posixTimeMin) {
         this.id = id;
         this.date = date;
         this.timeMin = timeMin;
         this.magnitude = magnitude;
+        this.posixTimeMin = posixTimeMin;
     }
 
     public String getId() {
@@ -59,5 +63,24 @@ public class Train {
 
     public void setMagnitude(Double magnitude) {
         this.magnitude = magnitude;
+    }
+
+    public Long getPosixTimeMin() {
+        return posixTimeMin;
+    }
+
+    public void setPosixTimeMin(Long posixTimeMin) {
+        this.posixTimeMin = posixTimeMin;
+    }
+
+    @Override
+    public String toString() {
+        return "Train{" +
+                "id='" + id + '\'' +
+                ", date=" + date +
+                ", timeMin=" + timeMin +
+                ", magnitude=" + magnitude +
+                ", posixTimeMin=" + posixTimeMin +
+                '}';
     }
 }
