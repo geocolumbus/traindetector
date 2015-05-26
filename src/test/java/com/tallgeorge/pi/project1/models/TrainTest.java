@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class TrainTest {
 
-    private Logger logger = LoggerFactory.getLogger(TrainTest.class);
+    private final Logger logger = LoggerFactory.getLogger(TrainTest.class);
 
     @Test
     public void trainHasProperties() {
@@ -43,8 +43,8 @@ public class TrainTest {
         train.setPosixTimeMin(1432405703L);
         train.setMagnitude(0.3051);
 
-        assertEquals("Train{id='null', date=Sat May 23 00:00:00 EDT 2015, timeMin=Thu Jan 01 14:16:00 EST 1970, " +
-                        "magnitude=0.3051, posixTimeMin=1432405703}",
+        assertEquals("Train{id='2015-05-23 14:25:15', date=Sat May 23 00:00:00 EDT 2015, " +
+                        "timeMin=Thu Jan 01 14:16:00 EST 1970, magnitude=0.3051, posixTimeMin=1432405703}",
                 train.toString());
     }
 }

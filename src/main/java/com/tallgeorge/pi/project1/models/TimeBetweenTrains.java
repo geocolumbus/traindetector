@@ -3,13 +3,14 @@ package com.tallgeorge.pi.project1.models;
 /**
  * A data point representing the minutes between trains and the expected poisson calculated value.
  */
-public class Poisson {
+public class TimeBetweenTrains {
     private Long minutes;
-    private Double poisson;
 
-    public Poisson(Long minutes, Double poisson) {
+    public TimeBetweenTrains() {
+    }
+
+    public TimeBetweenTrains(Long minutes) {
         this.minutes = minutes;
-        this.poisson = poisson;
     }
 
     public Long getMinutes() {
@@ -20,11 +21,10 @@ public class Poisson {
         this.minutes = minutes;
     }
 
-    public Double getPoisson() {
-        return poisson;
-    }
-
-    public void setPoisson(Double poisson) {
-        this.poisson = poisson;
+    @Override
+    public String toString() {
+        return "TimeBetweenTrains{" +
+                "minutes=" + minutes +
+                '}';
     }
 }

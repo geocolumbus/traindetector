@@ -2,7 +2,7 @@ package com.tallgeorge.pi.project1.controllers;
 
 import com.tallgeorge.pi.project1.domains.JpaSoundRepository;
 import com.tallgeorge.pi.project1.domains.JpaTrainRepository;
-import com.tallgeorge.pi.project1.models.Poisson;
+import com.tallgeorge.pi.project1.models.TimeBetweenTrains;
 import com.tallgeorge.pi.project1.models.Train;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import static java.lang.Math.*;
-import static org.apache.commons.math3.util.CombinatoricsUtils.factorial;
 
 @RestController
 public class AppRestController {
@@ -55,8 +52,8 @@ public class AppRestController {
     }
 
     @RequestMapping(value = "sound/trains/minutesbetweentrains", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Poisson> getTimeBetweenTrains() {
-        List<Poisson> poissons = new ArrayList<>();
+    public List<TimeBetweenTrains> getTimeBetweenTrains() {
+        List<TimeBetweenTrains> timeBetweenTrainses = new ArrayList<>();
         Iterable<Train> trains = jpaTrainRepository.findAll();
 
         // Calculate all the minutes between trains and put them in a hash map
@@ -79,19 +76,10 @@ public class AppRestController {
             last = train;
         }
 
-        // Calculate the poisson curve
-        //double lambda = 12;
-        //double scale = 1;
         for (int k = 0; k < 180; k++) {
-            Double poissonCalculation = 0.0;
-            /*
-            if (k < 21) {
-                poissonCalculation = scale * exp(-lambda) * pow(k, lambda) / factorial(k);
-            }
-            */
-            poissons.add(new Poisson(minutesBetweenTrains.get((long) k), poissonCalculation));
+            timeBetweenTrainses.add(new TimeBetweenTrains(minutesBetweenTrains.get((long) k)));
         }
-        return poissons;
+        return timeBetweenTrainses;
     }
 
     @RequestMapping(value = "/sound/trains/months", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

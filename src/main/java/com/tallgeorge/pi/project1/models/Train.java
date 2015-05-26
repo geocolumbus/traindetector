@@ -38,7 +38,7 @@ public class Train {
     }
 
     public void setId(String id) {
-        id = id;
+        this.id = id;
     }
 
     public Date getDate() {
@@ -83,4 +83,5 @@ public class Train {
                 ", posixTimeMin=" + posixTimeMin +
                 '}';
     }
+
 }

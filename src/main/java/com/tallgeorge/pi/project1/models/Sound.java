@@ -14,7 +14,7 @@ public class Sound {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @Column
     private Long posixTimeSec;
@@ -83,11 +83,11 @@ public class Sound {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Long getPosixTimeSec() {
@@ -253,7 +253,7 @@ public class Sound {
     @Override
     public String toString() {
         return "Sound{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", posixTimeSec=" + posixTimeSec +
                 ", posixTimeMin=" + posixTimeMin +
                 ", date=" + date +

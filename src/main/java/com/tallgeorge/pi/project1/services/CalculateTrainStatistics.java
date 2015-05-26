@@ -39,7 +39,7 @@ public class CalculateTrainStatistics implements CalculateStatistics {
         for (Sound sound : sounds) {
             if (lastPosixTimeMin == null || sound.getPosixTimeMin() - lastPosixTimeMin > 180L) {
                 String id = sound.getDate().toString() + " " + sound.getTimeMin().toString();
-                if (!jpaTrainRepository.exists(id)) {
+                if (sound.getProcessed()==false && !jpaTrainRepository.exists(id)) {
                     jpaTrainRepository.save(
                             new Train(
                                     id,
