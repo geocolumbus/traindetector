@@ -1,0 +1,7 @@
+<ehcache>
+    <cache name="getLastNDays" maxBytesLocalHeap="1M" timeToLiveSeconds="1800"></cache>
+    <cache name="getLastNMonths" maxBytesLocalHeap="1M" timeToLiveSeconds="1800"></cache>
+    <cache name="getDayOfWeekDistribution" maxBytesLocalHeap="1M" timeToLiveSeconds="1800"></cache>
+    <cache name="getHourOfDayDistribution" maxBytesLocalHeap="1M" timeToLiveSeconds="1800"></cache>
+    <cache name="getTimeBetweenTrains" maxBytesLocalHeap="1M" timeToLiveSeconds="1800"></cache>
+</ehcache>

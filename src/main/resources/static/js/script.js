@@ -98,13 +98,13 @@ $(document).ready(function () {
         };
 
         $.each(rawData, function (key) {
-            var date = new Date(rawData[key][0] + 'T00:00:01-05:00');
+            var date = new Date(rawData[key]['date'] + 'T00:00:01-05:00');
             var dayName = dayNames[date.getDay()];
             var weekendColor = dayName == 'Sa' || dayName == 'Su' ? "lightcoral" : null;
 
             chart['dataProvider'].push({
-                "category": dayName + ' ' + rawData[key][0].substr(-5, 2).replace(/^0/, "") + '-' + rawData[key][0].substr(-2, 2),
-                "column-1": rawData[key][1],
+                "category": dayName + ' ' + rawData[key]['date'].substr(-5, 2).replace(/^0/, "") + '-' + rawData[key]['date'].substr(-2, 2),
+                "column-1": rawData[key]['count'],
                 "columnColor": weekendColor,
                 "lineColor": weekendColor
             });
@@ -160,8 +160,8 @@ $(document).ready(function () {
 
         $.each(data, function (key) {
             yearlyChart.dataProvider.push({
-                'category': monthNames[data[key][0].substr(5, 2) - 1],
-                'column-1': data[key][1],
+                'category': monthNames[data[key]['date'].substr(5, 2) - 1],
+                'column-1': data[key]['count'],
                 'columnColor':'tan',
                 'lineColor':'tan'
             });
@@ -231,8 +231,8 @@ $(document).ready(function () {
 
             $.each(data, function (dataIndex) {
                 $.each(cleanData, function (item) {
-                    if (cleanData[item][0] == data[dataIndex][0]) {
-                        cleanData[item].push(data[dataIndex][1]);
+                    if (cleanData[item][0] == data[dataIndex]['day']) {
+                        cleanData[item].push(data[dataIndex]['count']);
                         return false;
                     }
                 });
@@ -299,8 +299,8 @@ $(document).ready(function () {
             var dayColor = key < 7 || key > 18 ? 'black' : null;
 
             distributionDayChart.dataProvider.push({
-                'category': data[key][0],
-                'column-1': data[key][1],
+                'category': data[key]['hour'],
+                'column-1': data[key]['count'],
                 "columnColor": dayColor,
                 "lineColor": dayColor
             });
@@ -333,16 +333,6 @@ $(document).ready(function () {
                     "type": "column",
                     "valueField": "column-1"
                 }
-                /*
-                {
-                    "balloonText": "[[value]]",
-                    "fillAlphas": 0,
-                    "id": "AmGraph-2",
-                    "title": "Poisson",
-                    "valueField": "column-2",
-                    "lineColor":"red"
-                }
-                */
             ],
             "guides": [],
             "valueAxes": [

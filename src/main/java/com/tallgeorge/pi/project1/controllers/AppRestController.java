@@ -2,17 +2,23 @@ package com.tallgeorge.pi.project1.controllers;
 
 import com.tallgeorge.pi.project1.domains.JpaSoundRepository;
 import com.tallgeorge.pi.project1.domains.JpaTrainRepository;
+import com.tallgeorge.pi.project1.models.DayDistribution;
+import com.tallgeorge.pi.project1.models.HourDistribution;
+import com.tallgeorge.pi.project1.models.TrainCount;
 import com.tallgeorge.pi.project1.models.TimeBetweenTrains;
 import com.tallgeorge.pi.project1.models.Train;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,25 +40,64 @@ public class AppRestController {
         return jpaTrainRepository.findAllByDate(date);
     }
 
+    @Cacheable(value = "getLastNDays")
     @RequestMapping(value = "/sound/trains/days", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object> getLastNDays(@RequestParam(value = "days") Long days) {
-        List<Object> list = jpaTrainRepository.findLastDays(days);
-        Collections.reverse(list);
-        return list;
+    public List<TrainCount> getLastNDays(@RequestParam(value = "days") Long days) {
+        logger.info("**** Executing /sound/trains/days?days={}", days);
+        List<Object> queryResults = jpaTrainRepository.findLastDays(days);
+        Collections.reverse(queryResults);
+        List<TrainCount> dayCount = new ArrayList<>();
+        for (Object queryResult : queryResults) {
+            Object[] obj = (Object[]) queryResult;
+            dayCount.add(new TrainCount((Date) obj[0], (BigInteger) obj[1]));
+        }
+        return dayCount;
     }
 
+    @Cacheable(value = "getLastNMonths")
+    @RequestMapping(value = "/sound/trains/months", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TrainCount> getLastNMonths(@RequestParam(value = "months") Long months) {
+        logger.info("**** Executing /sound/trains/months?months={}", months);
+        List<Object> queryResults = jpaTrainRepository.findLastMonths(months);
+        Collections.reverse(queryResults);
+        List<TrainCount> monthCount = new ArrayList<>();
+        for (Object queryResult : queryResults) {
+            Object[] obj = (Object[]) queryResult;
+            monthCount.add(new TrainCount((Date) obj[0], (BigInteger) obj[1]));
+        }
+        return monthCount;
+    }
+
+    @Cacheable(value = "getDayOfWeekDistribution")
     @RequestMapping(value = "sound/trains/daydist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object> getDayOfWeekDistribution() {
-        return jpaTrainRepository.findDayOfWeekDistribution();
+    public List<DayDistribution> getDayOfWeekDistribution() {
+        logger.info("**** sound/trains/daydist");
+        List<Object> objects = jpaTrainRepository.findDayOfWeekDistribution();
+        List<DayDistribution> dayDistributions = new ArrayList<>();
+        for (Object object : objects) {
+            Object[] obj = (Object[]) object;
+            dayDistributions.add(new DayDistribution((String) obj[0], (BigInteger) obj[1]));
+        }
+        return dayDistributions;
     }
 
+    @Cacheable(value = "getHourOfDayDistribution")
     @RequestMapping(value = "sound/trains/hourdist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object> getHourOfDayDistribution() {
-        return jpaTrainRepository.findHourOfDayDistribution();
+    public List<HourDistribution> getHourOfDayDistribution() {
+        logger.info("**** sound/trains/hourdist");
+        List<Object> objects = jpaTrainRepository.findHourOfDayDistribution();
+        List<HourDistribution> hourDistributions = new ArrayList<>();
+        for (Object object : objects) {
+            Object[] obj = (Object[]) object;
+            hourDistributions.add(new HourDistribution((Integer) obj[0], (BigInteger) obj[1]));
+        }
+        return hourDistributions;
     }
 
+    @Cacheable(value = "getTimeBetweenTrains")
     @RequestMapping(value = "sound/trains/minutesbetweentrains", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TimeBetweenTrains> getTimeBetweenTrains() {
+        logger.info("**** sound/trains/minutesbetweentrains");
         List<TimeBetweenTrains> timeBetweenTrainses = new ArrayList<>();
         Iterable<Train> trains = jpaTrainRepository.findAll();
 
@@ -81,22 +126,4 @@ public class AppRestController {
         }
         return timeBetweenTrainses;
     }
-
-    @RequestMapping(value = "/sound/trains/months", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object> getLastNMonths(@RequestParam(value = "months") Long months) {
-        List<Object> list = jpaTrainRepository.findLastMonths(months);
-        Collections.reverse(list);
-        return list;
-    }
-
-    @RequestMapping(value = "/sound/trains/bymonth", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object> getTrainsByMonth(@RequestParam(value = "month") String month, @RequestParam(value = "year") String year) {
-        return jpaTrainRepository.findDailyTotals(month, year);
-    }
-
-    @RequestMapping(value = "/sound/trains/byyear", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object> getTrainsByMonth(@RequestParam(value = "year") String year) {
-        return jpaTrainRepository.findMonthlyTotals(year);
-    }
-
 }
