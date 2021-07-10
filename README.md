@@ -45,6 +45,10 @@ Configure the alsa to use the adaper (1) instead of the default internal audio (
     
     defaults.ctl.card 1
     defaults.pcm.card 1
+    
+Enable your user to access the audio group
+
+    sudo usermod -a -G audio USERNAME
 
 Try recording 60 seconds of CD quality audio
 
