@@ -27,7 +27,7 @@ For my use case, I have an adapter with a CM108 chip. I can verify that with thi
 
 Plug the audio adapter into the USB port. You should see it identified:
 
-    ls usb
+    lsusb
     Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
     Bus 001 Device 003: ID 0d8c:0014 C-Media Electronics, Inc. Audio Adapter (Unitek Y-247A)
     Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
@@ -41,7 +41,7 @@ Update the system:
     
 Configure the alsa to use the adaper (1) instead of the default internal audio (0):
 
-    sudo nano /usr/share/alsa/alsa.conf
+    sudo vi /usr/share/alsa/alsa.conf
     
     defaults.ctl.card 1
     defaults.pcm.card 1
